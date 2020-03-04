@@ -1,20 +1,67 @@
 //client/components/App.js
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import axios from 'axios';
+import Add from './Add';
 import '../css/App.css';
 
-class App extends Component {
+export default class App extends Component {
+  
+  constructor() {
+    super();
+    this.state = {selectedCity: 'Tallahassee', selectedState: 'FL', data: []};
+    this.getData = this.getData.bind(this);
+  }
+  
+  componentDidMount() {
+    this.getData(this, 'FL');
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    this.getData(this, 'FL');
+  }
+  
+  getData(ev, state) {
+    axios.get('/getAll?city=All&state=' + state)
+      .then((response) => {
+        ev.setState({data: response.data});
+        ev.setState({selectedState: parseString(state)});
+    });
+  }
+  
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Begin Your Journey</h1>
-        </header>
-        <p className="App-intro">
-          Welcome
-        </p>
+      <div>
+        <Add selectedCity={this.state.selectedCity} selectedState={this.state.selectedState} />
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th className='desc-col'>Address</th>
+              <th className='button-col'>City</th>
+              <th className='button-col'>State</th>
+              <th className='button-col'>Zip Code</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.state.data.map((exp) => {
+                return (
+                  <tr>
+                    <td className='counterCell'></td>
+                    <td className='desc-col'>{exp.address}</td>
+                    <td className='button-col'>{exp.city}</td>
+                    <td className='button-col'>{exp.state}</td>
+                    <td className='button-col'>{exp.zipcode}</td>
+                  </tr>
+                )
+              }
+            }
+          </tbody>
+        </table>
       </div>
     );
   }
 }
-
+      
 export default App;
