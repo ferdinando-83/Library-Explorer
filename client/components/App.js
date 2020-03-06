@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Add from './Add';
+import Update from './Update';
 import '../css/App.css';
 
 export default class App extends Component {
@@ -45,14 +46,17 @@ export default class App extends Component {
           </thead>
           <tbody>
             {
-              this.state.data.map((exp) => {
+              this.state.data.map((dest) => {
                 return (
                   <tr>
                     <td className='counterCell'></td>
-                    <td className='desc-col'>{exp.address}</td>
-                    <td className='button-col'>{exp.city}</td>
-                    <td className='button-col'>{exp.state}</td>
-                    <td className='button-col'>{exp.zipcode}</td>
+                    <td className='desc-col'>{dest.address}</td>
+                    <td className='button-col'>{dest.city}</td>
+                    <td className='button-col'>{dest.state}</td>
+                    <td className='button-col'>{dest.zipcode}</td>
+                    <td className='button-col'>
+                      <Update destination={dest} />
+                    </td>
                   </tr>
                 )
               }
