@@ -9,4 +9,4 @@ const destinationSchema = new Schema({
   zipcode: Number
 });
 
-module.exports = mongoose.model('Destinations', destinationSchema);
+module.exports = mongoose.model('Destination', destinationSchema);
